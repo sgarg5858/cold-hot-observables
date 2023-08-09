@@ -20,6 +20,8 @@ export class UserService {
       // each time subscribe is called on this observable it will make http call
       //as observables are unicast
       this.users$= this.httpClient.get<User[]>('https://jsonplaceholder.typicode.com/users').pipe(
+        // Share operator uses subject behind the scenes to make cold observables multicast
+        // the issue is subscribes which subscribe later will not get the value
         share(),
         catchError(()=>of([]))
       );
