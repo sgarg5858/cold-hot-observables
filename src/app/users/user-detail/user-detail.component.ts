@@ -19,6 +19,7 @@ export class UserDetailComponent  implements OnInit{
       this.activatedRoute.paramMap.subscribe((params)=>{
         if(params.has('id') && params.get('id')){
         const id = +params.get('id')!;
+        
          this.user$ = this.userService.getUser(id);
         }
      })

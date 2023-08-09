@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from './user.model';
-import { Observable, catchError, map, of, share } from 'rxjs';
+import { Observable, catchError, map, of, share, shareReplay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class UserService {
       this.users$= this.httpClient.get<User[]>('https://jsonplaceholder.typicode.com/users').pipe(
         // Share operator uses subject behind the scenes to make cold observables multicast
         // the issue is subscribes which subscribe later will not get the value
-        share(),
+        shareReplay({refCount:true,bufferSize:1}),
         catchError(()=>of([]))
       );
     }
